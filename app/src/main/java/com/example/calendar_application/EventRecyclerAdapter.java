@@ -1,27 +1,40 @@
 package com.example.calendar_application;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.EventLog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.MyViewHolder> {
+import javax.security.auth.Destroyable;
 
-    Context context;
-    ArrayList<Events> arrayList ;
+import static androidx.core.content.ContextCompat.startActivity;
+
+public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.MyViewHolder> implements EventHandling {
+
+   static Context context;
+   static ArrayList<Events> arrayList ;
     DBOpenHelper dbOpenHelper;
-
+    Intent intent;
+    static Events events;
+   static int position,id,chaiyeko;
     public EventRecyclerAdapter(Context context, ArrayList<Events> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
+        events = null;
     }
 
     @NonNull
@@ -34,10 +47,12 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
     @Override
     public void onBindViewHolder(@NonNull EventRecyclerAdapter.MyViewHolder holder, final int position) {
-        final Events events = arrayList.get(position);
+        events = arrayList.get(position);
         holder.Event.setText(events.getEVENT());
         holder.DateTxt.setText(events.getDATE());
         holder.Time.setText(events.getTIME());
+        id = events.getID();
+
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,9 +63,25 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         });
     }
 
+    public static void sendData(){
+
+        Intent inte = new Intent(context,IndividualData.class);
+        context.startActivity(inte);
+    }
+
     @Override
     public int getItemCount() {
         return arrayList.size();
+    }
+
+    @Override
+    public void listener(int a) {
+
+    }
+    public static void kxababu(int position){
+        events = arrayList.get(position);
+        chaiyeko=events.getID();
+        sendData();
     }
 
     public class MyViewHolder  extends RecyclerView.ViewHolder{
@@ -62,7 +93,12 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             Event = itemView.findViewById(R.id.eventname);
             Time = itemView.findViewById(R.id.eventime);
             delete = itemView.findViewById(R.id.delete);
-            delete = itemView.findViewById(R.id.delete);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   EventRecyclerAdapter.kxababu(getAdapterPosition());
+                }
+            });
         }
     }
 

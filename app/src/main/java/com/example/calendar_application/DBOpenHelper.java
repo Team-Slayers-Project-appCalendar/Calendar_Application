@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 public class DBOpenHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_EVENTS_TABLE = "create table "+DBStructure.Event_TABLE_NAME+"(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-            +DBStructure.EVENT+" TEXT, "+DBStructure.TIME+" TEXT, "+DBStructure.DATE+" TEXT, "+DBStructure.MONTH+" TEXT, "
+            +DBStructure.EVENT+" TEXT, "+DBStructure.DESCRIPTION+" TEXT, "+DBStructure.LOCATION+" TEXT, "+DBStructure.TIME+" TEXT, "+DBStructure.DATE+" TEXT, "+DBStructure.MONTH+" TEXT, "
             +DBStructure.YEAR+" TEXT)";
 
     private static final String DROP_EVENTS_TABLE= "DROP TABLE IF EXISTS "+DBStructure.Event_TABLE_NAME;
@@ -31,9 +31,11 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void SaveEvent(String event,String time,String date,String month,String year,SQLiteDatabase database) {
+    public void SaveEvent(String event,String description, String location, String time,String date,String month,String year,SQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBStructure.EVENT,event);
+        contentValues.put(DBStructure.DESCRIPTION,description);
+        contentValues.put(DBStructure.LOCATION,location);
         contentValues.put(DBStructure.TIME,time);
         contentValues.put(DBStructure.DATE,date);
         contentValues.put(DBStructure.MONTH,month);
@@ -58,9 +60,17 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     }
 
     public Cursor ReadEventsperMonth(String month,String year, SQLiteDatabase database) {
-        String [] Projections = {DBStructure.EVENT, DBStructure.TIME,DBStructure.DATE,DBStructure.MONTH,DBStructure.YEAR};
+        String [] Projections = {DBStructure.ID,DBStructure.EVENT,DBStructure.DESCRIPTION,DBStructure.LOCATION, DBStructure.TIME,DBStructure.DATE,DBStructure.MONTH,DBStructure.YEAR};
         String Selection = DBStructure.MONTH +"=? and "+DBStructure.YEAR+"=?";
         String [] SelectionArgs = {month,year};
+        return database.query(DBStructure.Event_TABLE_NAME,Projections,Selection,SelectionArgs, null, null, null);
+    }
+
+    public Cursor Getdata (int ID, SQLiteDatabase database) {
+        String id=ID+"";
+        String [] Projections = {DBStructure.ID,DBStructure.EVENT,DBStructure.DESCRIPTION,DBStructure.LOCATION, DBStructure.TIME,DBStructure.DATE,DBStructure.MONTH,DBStructure.YEAR};
+        String Selection = DBStructure.ID +"=?";
+        String[] SelectionArgs = {id};
         return database.query(DBStructure.Event_TABLE_NAME,Projections,Selection,SelectionArgs, null, null, null);
     }
 
@@ -71,7 +81,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     }
 
 
-    public void updateEvent(String date,String event, String  time,String notify,SQLiteDatabase database){
+    public void updateEvent(String date,String event,String description, String location, String time,String notify,SQLiteDatabase database){
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBStructure.Notify,notify);
         String Selection = DBStructure.DATE +"=? and "+DBStructure.EVENT+"=? and "+DBStructure.TIME+"=?";

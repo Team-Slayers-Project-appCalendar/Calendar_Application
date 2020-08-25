@@ -1,15 +1,22 @@
 package com.example.calendar_application;
 
 public class Events {
-    String EVENT,TIME,DATE,MONTH,YEAR;
+    int ID;
+    String EVENT,DESCRIPTION,LOCATION,TIME,DATE,MONTH,YEAR;
 
-    public Events(String EVENT, String TIME, String DATE, String MONTH, String YEAR) {
+    public Events(int ID, String EVENT,String DESCRIPTION, String LOCATION, String TIME, String DATE, String MONTH, String YEAR) {
+        this.ID = ID;
         this.EVENT = EVENT;
+        this.DESCRIPTION = DESCRIPTION;
+        this.LOCATION = LOCATION;
         this.TIME = TIME;
         this.DATE = DATE;
         this.MONTH = MONTH;
         this.YEAR = YEAR;
     }
+
+    public int getID() {return  ID;}
+    public void setID(int ID) {this.ID = ID;}
 
     public String getEVENT() {
         return EVENT;
@@ -17,6 +24,22 @@ public class Events {
 
     public void setEVENT(String EVENT) {
         this.EVENT = EVENT;
+    }
+
+    public String getDESCRIPTION() {
+        return DESCRIPTION;
+    }
+
+    public void setDESCRIPTION(String DESCRIPTION) {
+        this.DESCRIPTION = DESCRIPTION;
+    }
+
+    public String getLOCATION() {
+        return LOCATION;
+    }
+
+    public void setLOCATION(String LOCATION) {
+        this.LOCATION = LOCATION;
     }
 
     public String getTIME() {

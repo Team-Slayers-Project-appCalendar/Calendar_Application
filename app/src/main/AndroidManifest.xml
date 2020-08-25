@@ -12,10 +12,19 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-<!--        final test final test final test          -->
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".EventRecyclerAdapter">
+
+        </activity>
+
+        <activity android:name=".IndividualData"></activity>
+
+        <receiver android:name=".AlarmReceiver" />
+
     </application>
 
 </manifest>

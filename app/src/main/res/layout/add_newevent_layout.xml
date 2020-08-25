@@ -19,6 +19,32 @@
         android:autofillHints=""
         tools:targetApi="o" />
 
+    <EditText
+        android:id="@+id/eventdescription"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="20dp"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:hint="Description"
+        android:inputType="textLongMessage"
+        tools:ignore="HardcodedText"
+        android:autofillHints=""
+        tools:targetApi="o" />
+
+    <EditText
+        android:id="@+id/eventlocation"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:hint="Location"
+        android:inputType="textShortMessage"
+        tools:ignore="HardcodedText"
+        android:autofillHints=""
+        tools:targetApi="o" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,15 +74,15 @@
             tools:ignore="HardcodedText"
             android:layout_weight="2"
             />
+
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Alarm Me"
+            android:id="@+id/alarm"
+            android:text="Add Alarm"
             android:textColor="@android:color/white"
             android:buttonTint="@android:color/white"
-            android:id="@+id/alarmme"
-            android:layout_weight="1"/>
-
+            />
 
     </LinearLayout>
 

@@ -26,6 +26,7 @@
                 android:textSize="15dp"
                 />
 
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,7 +48,11 @@
                 android:text="Time"
                 android:textSize="20dp"
                 />
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:id="@+id/dataid"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
