@@ -39,7 +39,7 @@
             <TextView
                 android:id="@+id/eventdescription"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="262dp"
                 android:gravity="center"
                 android:text="Event Description"
                 android:textColor="@android:color/holo_purple"
@@ -59,18 +59,18 @@
                     android:gravity="center"
                     android:text="Date"
                     android:textColor="@android:color/holo_blue_dark"
-                    android:textSize="15dp"
+                    android:textSize="25dp"
                     android:textStyle="bold"
                     android:paddingRight="50dp"/>
 
                 <TextView
-                    android:id="@+id/eventime"
+                    android:id="@+id/eventtime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Time"
                     android:textColor="@android:color/holo_green_dark"
-                    android:textSize="20dp"
+                    android:textSize="25dp"
                     android:textStyle="bold"
                     android:paddingLeft="50dp"/>
 

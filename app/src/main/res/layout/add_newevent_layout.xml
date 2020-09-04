@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,97 +7,133 @@
     android:orientation="vertical"
     android:background="@color/colorPrimaryDark">
 
-    <EditText
-        android:id="@+id/eventname"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="20dp"
-        android:background="@android:color/white"
-        android:gravity="center"
-        android:hint="Type Event"
-        android:inputType="textShortMessage"
-        tools:ignore="HardcodedText"
-        android:autofillHints=""
-        tools:targetApi="o" />
-
-    <EditText
-        android:id="@+id/eventdescription"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="20dp"
-        android:background="@android:color/white"
-        android:gravity="center"
-        android:hint="Description"
-        android:inputType="textLongMessage"
-        tools:ignore="HardcodedText"
-        android:autofillHints=""
-        tools:targetApi="o" />
-
-    <EditText
-        android:id="@+id/eventlocation"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="20dp"
-        android:background="@android:color/white"
-        android:gravity="center"
-        android:hint="Location"
-        android:inputType="textShortMessage"
-        tools:ignore="HardcodedText"
-        android:autofillHints=""
-        tools:targetApi="o" />
+        android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/seteventtime"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="10dp"
-            android:background="@mipmap/timeicon"
-            android:contentDescription="TODO"
-            tools:ignore="ContentDescription,HardcodedText"
-            android:layout_weight="1"
-            />
-
-        <TextView
-            android:id="@+id/eventtime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+        <EditText
+            android:id="@+id/eventname"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:background="@android:color/white"
             android:gravity="center"
-            android:text="00:00 AM"
-            android:textColor="@android:color/white"
-            android:textSize="30sp"
-            android:textStyle="bold"
+            android:hint="Type Event"
+            android:inputType="textShortMessage"
             tools:ignore="HardcodedText"
-            android:layout_weight="2"
-            />
+            android:autofillHints=""
+            tools:targetApi="o" />
 
-        <CheckBox
+        <EditText
+            android:id="@+id/eventdescription"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="20dp"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:hint="Description"
+            android:inputType="textLongMessage"
+            tools:ignore="HardcodedText"
+            android:autofillHints=""
+            tools:targetApi="o" />
+
+        <EditText
+            android:id="@+id/eventlocation"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:hint="Location"
+            android:inputType="textShortMessage"
+            tools:ignore="HardcodedText"
+            android:autofillHints=""
+            tools:targetApi="o" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/setImage"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:background="@mipmap/addnewimg"/>
+
+            <Button
+                android:id="@+id/addImage"
+                android:layout_width="150dp"
+                android:layout_height="61dp"
+                android:layout_gravity="center"
+                android:text="Add Image"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/seteventtime"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:background="@mipmap/timeicon"
+                android:contentDescription="TODO"
+                tools:ignore="ContentDescription,HardcodedText"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:id="@+id/eventtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="00:00 AM"
+                android:textColor="@android:color/white"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"
+                android:layout_weight="2"
+                />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alarm"
+                android:text="Add Alarm"
+                android:textColor="@android:color/white"
+                android:buttonTint="@android:color/white"
+                />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/addevent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/alarm"
-            android:text="Add Alarm"
-            android:textColor="@android:color/white"
-            android:buttonTint="@android:color/white"
-            />
-
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@android:color/white"
+            android:text="Add Event"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/addevent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:background="@android:color/white"
-        android:text="Add Event"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        tools:ignore="HardcodedText" />
-
+    </ScrollView>
 </LinearLayout>

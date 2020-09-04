@@ -1,10 +1,10 @@
 package com.example.calendar_application;
 
 public class Events {
-    int ID;
-    String EVENT,DESCRIPTION,LOCATION,TIME,DATE,MONTH,YEAR;
+    String ID, EVENT,DESCRIPTION,LOCATION,TIME,DATE,MONTH,YEAR;
+//    byte[] IMAGE;
 
-    public Events(int ID, String EVENT,String DESCRIPTION, String LOCATION, String TIME, String DATE, String MONTH, String YEAR) {
+    public Events(String ID, String EVENT,String DESCRIPTION, String LOCATION, String TIME, String DATE, String MONTH, String YEAR) {
         this.ID = ID;
         this.EVENT = EVENT;
         this.DESCRIPTION = DESCRIPTION;
@@ -13,10 +13,11 @@ public class Events {
         this.DATE = DATE;
         this.MONTH = MONTH;
         this.YEAR = YEAR;
+//        this.IMAGE = IMAGE;
     }
 
-    public int getID() {return  ID;}
-    public void setID(int ID) {this.ID = ID;}
+    public String getID() {return  ID;}
+    public void setID(String  ID) {this.ID = ID;}
 
     public String getEVENT() {
         return EVENT;
@@ -74,5 +75,8 @@ public class Events {
         this.YEAR = YEAR;
     }
 
+//    public byte[] getIMAGE() { return IMAGE; }
+//
+//    public void setIMAGE(byte[] IMAGE) { this.IMAGE = IMAGE; }
 }
 

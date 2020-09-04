@@ -30,7 +30,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     DBOpenHelper dbOpenHelper;
     Intent intent;
     static Events events;
-   static int position,id,chaiyeko;
+   static String  position,id,chaiyeko;
     public EventRecyclerAdapter(Context context, ArrayList<Events> arrayList) {
         this.context = context;
         this.arrayList = arrayList;

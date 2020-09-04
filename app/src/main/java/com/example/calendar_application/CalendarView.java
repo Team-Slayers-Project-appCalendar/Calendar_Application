@@ -1,9 +1,11 @@
 package com.example.calendar_application;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,7 +13,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.StrictMode;
+import android.provider.Contacts;
+import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +29,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -29,9 +38,11 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,12 +52,31 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import static android.content.Context.ALARM_SERVICE;
+import static androidx.core.app.ActivityCompat.startActivityForResult;
+import static java.lang.Integer.parseInt;
 
 public class CalendarView extends LinearLayout {
+    private ImageView setImage;
+
+    private static final int SELECT_PHOTO = 1;
+    private static final int CAPTURE_PHOTO = 2;
+
+    private ProgressDialog progressBar;
+    private int progressBarStatus = 0;
+    private Handler progressBarbHandler = new Handler();
+    private boolean hasImageChanged = false;
+
+    Bitmap thumbnail;
+
+    public static DBOpenHelper DBopenHelper;
+
+
+
+
     ImageButton NextButton, PreviousButton;
     TextView CurrentDate;
     GridView gridView;
-    private Context context;
+    private static Context context;
     private static final int MAX_CALENDAR_DAYS = 42;
     Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
     int hours=0,minutes=0;
@@ -57,7 +87,7 @@ public class CalendarView extends LinearLayout {
 
     MyGridAdapter myGridAdapter;
     AlertDialog alertDialog;
-    DBOpenHelper dbOpenHelper;
+    static DBOpenHelper dbOpenHelper;
     int checked=0;
     List<Date> dates = new ArrayList<>();
     List<Events> eventsList = new ArrayList<>();
@@ -68,7 +98,7 @@ public class CalendarView extends LinearLayout {
 
     public CalendarView(final Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        this.context  = context;
+        CalendarView.context = context;
         InitializeLayout();
         SetUpCalendar();
 
@@ -130,12 +160,25 @@ public class CalendarView extends LinearLayout {
                 final String month = monthFormat.format(dates.get(position));
                 final String year = yearFormat.format(dates.get(position));
 
+                Button addImage = addView.findViewById(R.id.addImage);
+                final ImageView setImage = addView.findViewById(R.id.setImage);
+
+                addImage.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        PhotoHal ph = new PhotoHal();
+                       saving();
+                    }
+
+                });
+
                 AddEvent.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         final CheckBox ch;
                         ch = (CheckBox) addView.findViewById(R.id.alarm);
-                        Toast.makeText(context, ""+ch.isChecked(), Toast.LENGTH_SHORT).show();
+
                         if(ch.isChecked()) {
                             // Set notificationId & text
                             Intent intent = new Intent(context, AlarmReceiver.class);
@@ -143,7 +186,6 @@ public class CalendarView extends LinearLayout {
                             intent.putExtra("todo", EventName.getText().toString());
 
 //                                                     getBroadcast(context, requestCode, intent, flags)
-
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 CharSequence name = "201";
@@ -175,7 +217,7 @@ public class CalendarView extends LinearLayout {
 
                         SaveEvent(EventName.getText().toString(),EventDescription.getText().toString(),EventLocation.getText().toString(),EventTime.getText().toString(),date,month,year);
 
-                        Toast.makeText(context, ""+EventDescription.getText().toString(), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(context, ""+EventDescription.getText().toString(), Toast.LENGTH_LONG).show();
 
                         SetUpCalendar();
                        alertDialog.dismiss();
@@ -214,6 +256,32 @@ public class CalendarView extends LinearLayout {
         });
 
     }
+
+    static File gettingImage() {
+        File directory = new File("mnt/sdcard/myapp");
+        File photoImg;
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+        photoImg = new File(directory, "Calendar.jpg");
+//        Toast.makeText(context, "banyo", Toast.LENGTH_SHORT).show();  //This one is coming after clicking the button but not dir is made
+        return photoImg;
+    }
+
+    void saving(){
+
+        Intent open_cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File fil = gettingImage();
+//                        Uri imageUri = FileProvider.getUriForFile(
+//                                context,
+//                                "com.example.calendar_application.provider",fil);
+        open_cam.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fil));
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        ((Activity)context).startActivityForResult(open_cam,1);
+
+
+    }
     public void onCheckboxClicked(){
         if(checked==0){
             checked=1;
@@ -237,13 +305,15 @@ public class CalendarView extends LinearLayout {
 //        }
 //    }
 
+    //viewing saved event from db
     private ArrayList<Events> CollectEventByDate(String date){
         ArrayList<Events> arrayList = new ArrayList<>();
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         Cursor cursor = dbOpenHelper.ReadEvents(date,database);
         while (cursor.moveToNext()){
-            int id = 0;
+            int ids = cursor.getInt(cursor.getColumnIndex(DBStructure.ID));
+            String id=ids+"";
             String event = cursor.getString(cursor.getColumnIndex(DBStructure.EVENT));
             String description ="";
             String location = "";
@@ -259,6 +329,33 @@ public class CalendarView extends LinearLayout {
 
         return arrayList;
     }
+    public static ArrayList<String> collectData(String ID){
+        ArrayList<String> arrayList = new ArrayList<>();
+        dbOpenHelper = new DBOpenHelper(context);
+        SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
+        Cursor cursor = dbOpenHelper.Getdata(parseInt(ID),database);
+        while (cursor.moveToNext()){
+            String id = cursor.getString(cursor.getColumnIndex(DBStructure.ID));
+            String event = cursor.getString(cursor.getColumnIndex(DBStructure.EVENT));
+            String description =cursor.getString(cursor.getColumnIndex(DBStructure.DESCRIPTION));
+            String location = cursor.getString(cursor.getColumnIndex(DBStructure.LOCATION));
+            String time = cursor.getString(cursor.getColumnIndex(DBStructure.TIME));
+            String Date = cursor.getString(cursor.getColumnIndex(DBStructure.DATE));
+            String month = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH));
+            String Year = cursor.getString(cursor.getColumnIndex(DBStructure.YEAR));
+            arrayList.add(event);
+            arrayList.add(description);
+            arrayList.add(location);
+            arrayList.add(time);
+            arrayList.add(Date);
+            arrayList.add(month);
+            arrayList.add(Year);
+        }
+        cursor.close();
+        dbOpenHelper.close();
+        return arrayList;
+    }
+
 
     public CalendarView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -308,7 +405,7 @@ public class CalendarView extends LinearLayout {
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         Cursor cursor = dbOpenHelper.ReadEventsperMonth(Month,year,database);
         while (cursor.moveToNext()){
-            int id = cursor.getInt(cursor.getColumnIndex(DBStructure.ID));
+            String id = cursor.getString(cursor.getColumnIndex(DBStructure.ID));
             String event = cursor.getString(cursor.getColumnIndex(DBStructure.EVENT));
             String description = cursor.getString(cursor.getColumnIndex(DBStructure.DESCRIPTION));
             String location = cursor.getString(cursor.getColumnIndex(DBStructure.LOCATION));
@@ -323,6 +420,47 @@ public class CalendarView extends LinearLayout {
         cursor.close();
         dbOpenHelper.close();
 
+    }
+
+    public void setProgressBar(){
+        progressBar = new ProgressDialog(context);
+        progressBar.setCancelable(true);
+        progressBar.setMessage("Please wait...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setProgress(0);
+        progressBar.setMax(100);
+        progressBar.show();
+        progressBarStatus = 0;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (progressBarStatus < 100){
+                    progressBarStatus += 30;
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    progressBarbHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setProgress(progressBarStatus);
+                        }
+                    });
+                }
+                if (progressBarStatus >= 100) {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    progressBar.dismiss();
+                }
+
+            }
+        }).start();
     }
 
 }
