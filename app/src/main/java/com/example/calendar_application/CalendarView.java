@@ -120,6 +120,14 @@ public class CalendarView extends LinearLayout {
         });
 
 
+//        Button sharebutton = addView.findViewById(R.id.sharebutton);
+//        sharebutton.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(context, "jathi", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -234,7 +242,6 @@ public class CalendarView extends LinearLayout {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 String date = eventDateFormate.format(dates.get(position));
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(true);
                 View showView = LayoutInflater.from(parent.getContext()).inflate(R.layout.show_events_layout,null);
@@ -246,14 +253,14 @@ public class CalendarView extends LinearLayout {
                         ,CollectEventByDate(date));
                 recyclerView.setAdapter(eventRecyclerAdapter);
                 eventRecyclerAdapter.notifyDataSetChanged();
-
                 builder.setView(showView);
                 alertDialog =builder.create();
                 alertDialog.show();
-
+// show.setImageDrawable(Drawable.createFromPath(way));
                 return true;
             }
         });
+
 
     }
 

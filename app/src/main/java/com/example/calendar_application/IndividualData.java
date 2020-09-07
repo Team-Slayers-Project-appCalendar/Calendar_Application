@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,13 @@ String id = EventRecyclerAdapter.chaiyeko;
         EventLocation.setText(eve.get(2));
         EventTime.setText(eve.get(3));
         EventDate.setText(eve.get(4));
+        final Button ShareButton = findViewById(R.id.sharebutton);
+        ShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(IndividualData.this, "Timi haru ko kam ho muji", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 //        for (int i = 0; i<eve.size();i++){
 //            System.out.println(eve.get(i));

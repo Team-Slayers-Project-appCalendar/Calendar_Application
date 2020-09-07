@@ -17,13 +17,15 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/BackButton"
+                android:id="@+id/sharebutton"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
-                android:textColor="#000"/>
+                android:textColor="#000"
+                android:text="Share"
+                android:layout_gravity="right"/>
 
             <TextView
             android:layout_width="match_parent"
