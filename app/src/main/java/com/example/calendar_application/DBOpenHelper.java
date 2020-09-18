@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import static com.example.calendar_application.DBStructure.ID;
+
 public class DBOpenHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_EVENTS_TABLE = "create table "+DBStructure.Event_TABLE_NAME+"(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -44,15 +46,20 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     }
 
+    public Cursor getNextId(SQLiteDatabase database){
+        String [] Projections = {ID};
+
+        return database.query(DBStructure.Event_TABLE_NAME,Projections,null,null,null,null,ID+" DESC");
+    }
     public Cursor ReadEvents(String date, SQLiteDatabase database) {
-        String [] Projections = {DBStructure.ID, DBStructure.EVENT, DBStructure.TIME,DBStructure.DATE,DBStructure.MONTH,DBStructure.YEAR};
+        String [] Projections = {ID, DBStructure.EVENT, DBStructure.TIME,DBStructure.DATE,DBStructure.MONTH,DBStructure.YEAR};
         String Selection = DBStructure.DATE +"=?";
         String [] SelectionArgs = {date};
         return database.query(DBStructure.Event_TABLE_NAME,Projections,Selection,SelectionArgs, null, null, null);
     }
 
     public Cursor ReadIDEvents(String date,String event, String  time,SQLiteDatabase database){
-        String [] Projections = {DBStructure.ID,DBStructure.Notify,DBStructure.TIME};
+        String [] Projections = {ID,DBStructure.Notify,DBStructure.TIME};
         String Selection = DBStructure.DATE +"=? and "+DBStructure.EVENT+"=? and "+DBStructure.TIME+"=?";
         String [] SelectionArgs = {date,event,time};
 
@@ -60,7 +67,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     }
 
     public Cursor ReadEventsperMonth(String month,String year, SQLiteDatabase database) {
-        String [] Projections = {DBStructure.ID,DBStructure.EVENT,DBStructure.DESCRIPTION,DBStructure.LOCATION, DBStructure.TIME,DBStructure.DATE,DBStructure.MONTH,DBStructure.YEAR};
+        String [] Projections = {ID,DBStructure.EVENT,DBStructure.DESCRIPTION,DBStructure.LOCATION, DBStructure.TIME,DBStructure.DATE,DBStructure.MONTH,DBStructure.YEAR};
         String Selection = DBStructure.MONTH +"=? and "+DBStructure.YEAR+"=?";
         String [] SelectionArgs = {month,year};
         return database.query(DBStructure.Event_TABLE_NAME,Projections,Selection,SelectionArgs, null, null, null);

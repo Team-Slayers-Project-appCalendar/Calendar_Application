@@ -16,16 +16,29 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/editbutton"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:text="Edit"
+            android:layout_gravity="left"/>
+
             <Button
                 android:id="@+id/sharebutton"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:layout_marginLeft="230dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"
-                android:textColor="#000"
                 android:text="Share"
-                android:layout_gravity="right"/>
+                android:textColor="#000"/>
+        </LinearLayout>
 
             <TextView
             android:layout_width="match_parent"
@@ -41,7 +54,7 @@
             <TextView
                 android:id="@+id/eventdescription"
                 android:layout_width="match_parent"
-                android:layout_height="262dp"
+                android:layout_height="163dp"
                 android:gravity="center"
                 android:text="Event Description"
                 android:textColor="@android:color/holo_purple"
@@ -68,13 +81,13 @@
                 <TextView
                     android:id="@+id/eventtime"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:gravity="center"
+                    android:paddingLeft="50dp"
                     android:text="Time"
                     android:textColor="@android:color/holo_green_dark"
                     android:textSize="25dp"
-                    android:textStyle="bold"
-                    android:paddingLeft="50dp"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -88,7 +101,10 @@
                 android:textSize="32dp"
                 android:textStyle="bold" />
 
-
+            <ImageView
+                android:layout_width="186dp"
+                android:layout_height="135dp"
+                android:layout_gravity="center" />
 
             <Button
                 android:layout_width="match_parent"

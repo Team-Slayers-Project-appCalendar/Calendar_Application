@@ -14,6 +14,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -38,9 +40,12 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -53,25 +58,19 @@ import java.util.TimeZone;
 
 import static android.content.Context.ALARM_SERVICE;
 import static androidx.core.app.ActivityCompat.startActivityForResult;
+import static java.lang.Integer.compare;
 import static java.lang.Integer.parseInt;
+import static java.lang.Integer.valueOf;
 
 public class CalendarView extends LinearLayout {
-    private ImageView setImage;
-
-    private static final int SELECT_PHOTO = 1;
-    private static final int CAPTURE_PHOTO = 2;
+    public static ImageView setImage;
 
     private ProgressDialog progressBar;
     private int progressBarStatus = 0;
     private Handler progressBarbHandler = new Handler();
     private boolean hasImageChanged = false;
 
-    Bitmap thumbnail;
-
     public static DBOpenHelper DBopenHelper;
-
-
-
 
     ImageButton NextButton, PreviousButton;
     TextView CurrentDate;
@@ -139,6 +138,24 @@ public class CalendarView extends LinearLayout {
                 final EditText EventDescription = addView.findViewById(R.id.eventdescription);
                 final EditText EventLocation = addView.findViewById(R.id.eventlocation);
                 final TextView EventTime = addView.findViewById(R.id.eventtime);
+                setImage =addView.findViewById(R.id.setImage);
+                final int value= nextId()+1;
+                File image = new File("mnt/sdcard/myapp/"+value+".jpg");
+
+                setImage.setImageBitmap(BitmapFactory.decodeFile(image.getAbsolutePath().trim()));
+
+
+                File imgFile = new  File("/mnt/sdcard/myapp/"+value+".jpg");
+
+                if(imgFile.exists()){
+                    Toast.makeText(context, "found the photo in directory", Toast.LENGTH_SHORT).show();
+                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile+"");
+                    CalendarView.setImage.setBackgroundResource(R.color.colorPrimaryDark);
+                    setImage.setImageBitmap(myBitmap);
+                    setImage.setImageURI(Uri.fromFile(imgFile));
+
+                }
+
                 ImageButton SetTime = addView.findViewById(R.id.seteventtime);
                 Button AddEvent = addView.findViewById(R.id.addevent);
                 SetTime.setOnClickListener(new OnClickListener() {
@@ -169,17 +186,25 @@ public class CalendarView extends LinearLayout {
                 final String year = yearFormat.format(dates.get(position));
 
                 Button addImage = addView.findViewById(R.id.addImage);
-                final ImageView setImage = addView.findViewById(R.id.setImage);
 
                 addImage.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View view) {
-                        PhotoHal ph = new PhotoHal();
-                       saving();
+                       //saving();
+                        ((ClickImage)context).imageClick();
+                        int value = nextId()+1;
                     }
 
                 });
+                setImage.setOnClickListener(new View.OnClickListener(){
+
+                    @Override
+                    public void onClick(View view) {
+                        ((ClickImage)context).gallerySelect();
+                    }
+                });
+
 
                 AddEvent.setOnClickListener(new OnClickListener() {
                     @Override
@@ -256,7 +281,6 @@ public class CalendarView extends LinearLayout {
                 builder.setView(showView);
                 alertDialog =builder.create();
                 alertDialog.show();
-// show.setImageDrawable(Drawable.createFromPath(way));
                 return true;
             }
         });
@@ -270,13 +294,11 @@ public class CalendarView extends LinearLayout {
         if (!directory.exists()) {
             directory.mkdir();
         }
-        photoImg = new File(directory, "Calendar.jpg");
-//        Toast.makeText(context, "banyo", Toast.LENGTH_SHORT).show();  //This one is coming after clicking the button but not dir is made
+        photoImg = new File(directory, nextId()+1+".jpg");
         return photoImg;
     }
 
     void saving(){
-
         Intent open_cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File fil = gettingImage();
 //                        Uri imageUri = FileProvider.getUriForFile(
@@ -285,10 +307,14 @@ public class CalendarView extends LinearLayout {
         open_cam.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fil));
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-        ((Activity)context).startActivityForResult(open_cam,1);
 
+       ((Activity)context).startActivityForResult(open_cam,1);
+       MainActivity ma = new MainActivity();
+       ma.onActivityResult(100,1,null);
 
     }
+
+
     public void onCheckboxClicked(){
         if(checked==0){
             checked=1;
@@ -312,6 +338,17 @@ public class CalendarView extends LinearLayout {
 //        }
 //    }
 
+
+    public static int nextId(){
+        int nxtId=0;
+        dbOpenHelper = new DBOpenHelper(context);
+        SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
+        Cursor cursor = dbOpenHelper.getNextId(database);
+        if(cursor.moveToNext()){
+            nxtId = cursor.getInt(cursor.getColumnIndex(DBStructure.ID));
+        }
+        return nxtId;
+    }
     //viewing saved event from db
     private ArrayList<Events> CollectEventByDate(String date){
         ArrayList<Events> arrayList = new ArrayList<>();
@@ -470,4 +507,9 @@ public class CalendarView extends LinearLayout {
         }).start();
     }
 
+
+    public interface ClickImage{
+     public void imageClick();
+     public void gallerySelect();
+    }
 }
