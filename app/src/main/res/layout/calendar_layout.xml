@@ -114,13 +114,13 @@
             android:layout_weight="1"
             android:textStyle="bold"/>
 
-
     </LinearLayout>
+
     <GridView
+        android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/gridview"
-        android:numColumns="7">
-
-    </GridView>
+        android:layout_marginBottom="5dp"
+        android:numColumns="7"
+        android:paddingBottom="5dp"></GridView>
 </LinearLayout>

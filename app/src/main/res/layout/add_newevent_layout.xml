@@ -72,7 +72,7 @@
                 android:layout_width="150dp"
                 android:layout_height="61dp"
                 android:layout_gravity="center"
-                android:text="Add Image"
+                android:text="Open Camera"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
