@@ -130,13 +130,6 @@ public class CalendarView extends LinearLayout {
                 final TextView EventTime = addView.findViewById(R.id.eventtime);
                 setImage =addView.findViewById(R.id.setImage);
                 value= nextId()+1;
-                File image = new File("mnt/sdcard/myapp/"+value+".jpg");
-
-                setImage.setImageBitmap(BitmapFactory.decodeFile(image.getAbsolutePath().trim()));
-
-
-                File imgFile = new  File("/mnt/sdcard/myapp/"+value+".jpg");
-
                 ImageButton SetTime = addView.findViewById(R.id.seteventtime);
                 Button AddEvent = addView.findViewById(R.id.addevent);
                 SetTime.setOnClickListener(new OnClickListener() {

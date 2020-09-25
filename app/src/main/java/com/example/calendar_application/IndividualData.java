@@ -61,7 +61,7 @@ String id = EventRecyclerAdapter.chaiyeko;
         ShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(IndividualData.this, "Timi haru ko kam ho muji", Toast.LENGTH_SHORT).show();
+                Toast.makeText(IndividualData.this, "Export to pdf starts from here boys", Toast.LENGTH_SHORT).show();
             }
         });
         editbutton.setOnClickListener(new View.OnClickListener() {

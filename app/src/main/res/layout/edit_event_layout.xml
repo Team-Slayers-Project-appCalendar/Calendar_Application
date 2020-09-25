@@ -30,7 +30,7 @@
                     android:layout_gravity="left"/>
 
                 <Button
-                    android:id="@+id/savebutton"
+                    android:id="@+id/updatebutton"
                     android:layout_width="80dp"
                     android:layout_height="40dp"
                     android:layout_gravity="right"

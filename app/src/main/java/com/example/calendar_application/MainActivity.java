@@ -58,13 +58,7 @@ void check_permission_storage(){
                         MainActivity.this,
                         new String[] { Manifest.permission.READ_EXTERNAL_STORAGE }, 10);
     }
-    else {
-        Toast
-                .makeText(MainActivity.this,
-                        "Permission already granted",
-                        Toast.LENGTH_SHORT)
-                .show();
-    }
+    else { }
 }
     void check_permission_camera(){
         if (ContextCompat.checkSelfPermission(
@@ -76,13 +70,7 @@ void check_permission_storage(){
                             MainActivity.this,
                             new String[] { Manifest.permission.CAMERA }, 11);
         }
-        else {
-            Toast
-                    .makeText(MainActivity.this,
-                            "Permission already granted",
-                            Toast.LENGTH_SHORT)
-                    .show();
-        }
+        else {}
     }
 
     @Override
