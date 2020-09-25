@@ -71,7 +71,7 @@ public class CalendarView extends LinearLayout {
     private boolean hasImageChanged = false;
 
     public static DBOpenHelper DBopenHelper;
-
+    static int value;
     ImageButton NextButton, PreviousButton;
     TextView CurrentDate;
     GridView gridView;
@@ -118,16 +118,6 @@ public class CalendarView extends LinearLayout {
             }
         });
 
-
-//        Button sharebutton = addView.findViewById(R.id.sharebutton);
-//        sharebutton.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(context, "jathi", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, View view, int position, long id) {
@@ -139,22 +129,13 @@ public class CalendarView extends LinearLayout {
                 final EditText EventLocation = addView.findViewById(R.id.eventlocation);
                 final TextView EventTime = addView.findViewById(R.id.eventtime);
                 setImage =addView.findViewById(R.id.setImage);
-                final int value= nextId()+1;
+                value= nextId()+1;
                 File image = new File("mnt/sdcard/myapp/"+value+".jpg");
 
                 setImage.setImageBitmap(BitmapFactory.decodeFile(image.getAbsolutePath().trim()));
 
 
                 File imgFile = new  File("/mnt/sdcard/myapp/"+value+".jpg");
-
-                if(imgFile.exists()){
-                    Toast.makeText(context, "found the photo in directory", Toast.LENGTH_SHORT).show();
-                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile+"");
-                    CalendarView.setImage.setBackgroundResource(R.color.colorPrimaryDark);
-                    setImage.setImageBitmap(myBitmap);
-                    setImage.setImageURI(Uri.fromFile(imgFile));
-
-                }
 
                 ImageButton SetTime = addView.findViewById(R.id.seteventtime);
                 Button AddEvent = addView.findViewById(R.id.addevent);
@@ -193,7 +174,7 @@ public class CalendarView extends LinearLayout {
                     public void onClick(View view) {
                        //saving();
                         ((ClickImage)context).imageClick();
-                        int value = nextId()+1;
+                        value = nextId()+1;
                     }
 
                 });
@@ -211,7 +192,7 @@ public class CalendarView extends LinearLayout {
                     public void onClick(View v) {
                         final CheckBox ch;
                         ch = (CheckBox) addView.findViewById(R.id.alarm);
-
+                        //notification reminder
                         if(ch.isChecked()) {
                             // Set notificationId & text
                             Intent intent = new Intent(context, AlarmReceiver.class);
@@ -245,10 +226,8 @@ public class CalendarView extends LinearLayout {
                             // set(type, milliseconds, intent)
 
                             alarm.set(AlarmManager.RTC_WAKEUP, alarmStartTime, alarmIntent);
-
                         }
-
-                        SaveEvent(EventName.getText().toString(),EventDescription.getText().toString(),EventLocation.getText().toString(),EventTime.getText().toString(),date,month,year);
+                        SaveEvent(EventName.getText().toString(),EventDescription.getText().toString(),EventLocation.getText().toString(),EventTime.getText().toString(),date,month,year,"mnt/sdcard/myapp/"+value+".jpg");
 
 //                        Toast.makeText(context, ""+EventDescription.getText().toString(), Toast.LENGTH_LONG).show();
 
@@ -284,8 +263,6 @@ public class CalendarView extends LinearLayout {
                 return true;
             }
         });
-
-
     }
 
     static File gettingImage() {
@@ -301,9 +278,6 @@ public class CalendarView extends LinearLayout {
     void saving(){
         Intent open_cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File fil = gettingImage();
-//                        Uri imageUri = FileProvider.getUriForFile(
-//                                context,
-//                                "com.example.calendar_application.provider",fil);
         open_cam.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fil));
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
@@ -314,30 +288,12 @@ public class CalendarView extends LinearLayout {
 
     }
 
-
     public void onCheckboxClicked(){
         if(checked==0){
             checked=1;
         }
         else{checked=0;}
     }
-//
-//    private void createNotificationChannel() {
-//        // Create the NotificationChannel, but only on API 26+ because
-//        // the NotificationChannel class is new and not in the support library
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            CharSequence name = getString(R.string.channel_name);
-//            String description = getString(R.string.EventName);
-//            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-//            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-//            channel.setDescription(description);
-//            // Register the channel with the system; you can't change the importance
-//            // or other notification behaviors after this
-//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-//            notificationManager.createNotificationChannel(channel);
-//        }
-//    }
-
 
     public static int nextId(){
         int nxtId=0;
@@ -365,6 +321,7 @@ public class CalendarView extends LinearLayout {
             String Date = cursor.getString(cursor.getColumnIndex(DBStructure.DATE));
             String month = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH));
             String Year = cursor.getString(cursor.getColumnIndex(DBStructure.YEAR));
+//            String imglocation = cursor.getString(cursor.getColumnIndex(DBStructure.IMAGELOCATION));
             Events events = new Events(id,event,description,location,time,Date,month,Year);
             arrayList.add(events);
         }
@@ -387,6 +344,7 @@ public class CalendarView extends LinearLayout {
             String Date = cursor.getString(cursor.getColumnIndex(DBStructure.DATE));
             String month = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH));
             String Year = cursor.getString(cursor.getColumnIndex(DBStructure.YEAR));
+            String imagelocation = cursor.getString(cursor.getColumnIndex(DBStructure.IMAGELOCATION));
             arrayList.add(event);
             arrayList.add(description);
             arrayList.add(location);
@@ -394,6 +352,7 @@ public class CalendarView extends LinearLayout {
             arrayList.add(Date);
             arrayList.add(month);
             arrayList.add(Year);
+            arrayList.add(imagelocation);
         }
         cursor.close();
         dbOpenHelper.close();
@@ -405,10 +364,10 @@ public class CalendarView extends LinearLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    private void SaveEvent (String event,String description, String location, String time, String date, String month, String year) {
+    private void SaveEvent (String event,String description, String location, String time, String date, String month, String year,String imagelocation) {
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
-        dbOpenHelper.SaveEvent(event,description,location,time,date,month,year,database);
+        dbOpenHelper.SaveEvent(event,description,location,time,date,month,year,imagelocation,database);
         dbOpenHelper.close();
         Toast.makeText(context, "Event Saved", Toast.LENGTH_SHORT).show();
     }
@@ -451,6 +410,7 @@ public class CalendarView extends LinearLayout {
         while (cursor.moveToNext()){
             String id = cursor.getString(cursor.getColumnIndex(DBStructure.ID));
             String event = cursor.getString(cursor.getColumnIndex(DBStructure.EVENT));
+//            String image = cursor.getString(cursor.getColumnIndex(DBStructure.IMAGE));
             String description = cursor.getString(cursor.getColumnIndex(DBStructure.DESCRIPTION));
             String location = cursor.getString(cursor.getColumnIndex(DBStructure.LOCATION));
             String time = cursor.getString(cursor.getColumnIndex(DBStructure.TIME));

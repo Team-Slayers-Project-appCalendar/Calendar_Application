@@ -104,15 +104,21 @@
             <ImageView
                 android:layout_width="186dp"
                 android:layout_height="135dp"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:id="@+id/view_image"/>
 
             <Button
+                android:id="@+id/delete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/delete"
+                android:layout_margin="10dp"
                 android:text="Delete"
-                android:textAllCaps="false"
-                android:layout_margin="10dp"/>
+                android:textAllCaps="false" />
+
+            <TextView
+                android:id="@+id/eventttid"
+                android:layout_width="00dp"
+                android:layout_height="00dp" />
 
         </LinearLayout>
 

@@ -43,6 +43,8 @@
 
         </activity>
 
+        <activity android:name=".edit_event"></activity>
+
         <activity android:name=".IndividualData"></activity>
 
         <receiver android:name=".AlarmReceiver" />
