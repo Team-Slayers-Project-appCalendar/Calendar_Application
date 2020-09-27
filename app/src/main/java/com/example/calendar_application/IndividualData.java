@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.w3c.dom.Text;
 
@@ -24,7 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class IndividualData extends Activity {
+public class IndividualData extends AppCompatActivity {
 
 String id = EventRecyclerAdapter.chaiyeko;
     ArrayList<String> eve;
@@ -62,6 +63,7 @@ String id = EventRecyclerAdapter.chaiyeko;
             @Override
             public void onClick(View view) {
                 Toast.makeText(IndividualData.this, "Export to pdf starts from here boys", Toast.LENGTH_SHORT).show();
+                Toast.makeText(IndividualData.this, ""+eve.get(0), Toast.LENGTH_SHORT).show();
             }
         });
         editbutton.setOnClickListener(new View.OnClickListener() {
