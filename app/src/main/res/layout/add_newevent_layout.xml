@@ -37,7 +37,7 @@
             android:background="@android:color/white"
             android:gravity="center"
             android:hint="Description"
-            android:inputType="textLongMessage"
+            android:inputType="textMultiLine"
             tools:ignore="HardcodedText"
             android:autofillHints=""
             tools:targetApi="o" />

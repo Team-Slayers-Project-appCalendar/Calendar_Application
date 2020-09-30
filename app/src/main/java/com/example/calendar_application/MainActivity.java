@@ -14,10 +14,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -28,6 +30,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import static com.example.calendar_application.CalendarView.nextId;
 import static com.example.calendar_application.CalendarView.setImage;
@@ -128,6 +131,7 @@ void check_permission_storage(){
     public void gallerySelect() {
         Intent gallery = new Intent();
         gallery.setType("image/+");
+
         gallery.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(gallery, "Select Picture"), 101);
     }
@@ -157,6 +161,17 @@ void check_permission_storage(){
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
                     CalendarView.setImage.setBackgroundResource(R.color.colorPrimaryDark);
                     CalendarView.setImage.setImageBitmap(bitmap);
+
+                    BitmapDrawable draw = (BitmapDrawable) setImage.getDrawable();
+                    Bitmap bitmp = draw.getBitmap();
+
+                    FileOutputStream outStream = null;
+
+                    File outFile = new File("/mnt/sdcard/myapp/", value+".jpg");
+                    outStream = new FileOutputStream(outFile);
+                    bitmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+                    outStream.flush();
+                    outStream.close();
                 }catch (IOException e){
                     e.printStackTrace();
                 }
