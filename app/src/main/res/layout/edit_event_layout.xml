@@ -7,123 +7,152 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp">
 
-    <androidx.cardview.widget.CardView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="12sp">
-        <LinearLayout
+        android:layout_height="wrap_content">
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            android:layout_margin="10dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="12sp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/cancel_button"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:text="Edit"
-                    android:layout_gravity="left"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/updatebutton"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="right"
-                    android:layout_marginLeft="230dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="Update Event"
-                    android:textColor="#000"/>
-            </LinearLayout>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@android:color/holo_purple"
-                android:id="@+id/editeventname"
-                android:textStyle="bold"
-                android:text="Event Name"
-                android:textSize="40dp"
-                />
-
-            <EditText
-                android:id="@+id/editeventdescription"
-                android:layout_width="match_parent"
-                android:layout_height="163dp"
-                android:gravity="center"
-                android:text="Event Description"
-                android:textColor="@android:color/holo_purple"
-                android:textSize="35dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:id="@+id/date"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center_horizontal">
-
-                <ImageButton
-                    android:id="@+id/editeventtime"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="10dp"
-                    android:background="@mipmap/timeicon"
-                    android:contentDescription="TODO"
-                    tools:ignore="ContentDescription,HardcodedText"
-                    android:layout_weight="1"
-                    />
+                    <Button
+                        android:id="@+id/updatebutton"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="right"
+                        android:layout_marginLeft="220dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="Update Event"
+                        android:textColor="#000" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/displayeventtime"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:text="00:00 AM"
-                    android:textColor="@android:color/black"
-                    android:textSize="30sp"
+                    android:gravity="left"
+                    android:textColor="@android:color/holo_green_light"
                     android:textStyle="bold"
-                    tools:ignore="HardcodedText"
-                    android:layout_weight="2"
+                    android:text="Event Name: "
+                    android:textSize="30dp"
                     />
 
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:id="@+id/editeventname"
+                    android:textStyle="bold"
+                    android:text="Event Name"
+                    android:textSize="35dp"
+                    android:paddingBottom="20dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textColor="@android:color/holo_green_light"
+                    android:textStyle="bold"
+                    android:text="Event Description: "
+                    android:textSize="30dp"
+                    android:layout_marginTop="15dp"
+                    />
+
+                <EditText
+                    android:id="@+id/editeventdescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Event Description"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="35dp"
+                    android:textStyle="bold"
+                    android:paddingBottom="20dp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/date"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <ImageButton
+                        android:id="@+id/editeventtime"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="10dp"
+                        android:background="@mipmap/timeicon"
+                        android:contentDescription="TODO"
+                        tools:ignore="ContentDescription,HardcodedText"
+                        android:layout_weight="1"
+                        />
+
+                    <TextView
+                        android:id="@+id/displayeventtime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:gravity="center"
+                        android:text="00:00 AM"
+                        android:textColor="@android:color/holo_blue_dark"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText"
+                        android:layout_weight="2"
+                        />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textColor="@android:color/holo_green_light"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:text="Event Location: "
+                    android:textSize="30dp"
+                    />
+
+                <EditText
+                    android:id="@+id/editeventlocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Event Location"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="32dp"
+                    android:textStyle="bold"
+                    android:paddingBottom="20dp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/view_image"/>
+
+                <TextView
+                    android:id="@+id/eventttid"
+                    android:layout_width="00dp"
+                    android:layout_height="00dp" />
 
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/editeventlocation"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:gravity="center"
-                android:text="Event Location"
-                android:textColor="@android:color/holo_purple"
-                android:textSize="32dp"
-                android:textStyle="bold" />
+        </androidx.cardview.widget.CardView>
 
-            <ImageView
-                android:layout_width="186dp"
-                android:layout_height="135dp"
-                android:layout_gravity="center"
-                android:id="@+id/view_image"/>
-
-            <TextView
-                android:id="@+id/eventttid"
-                android:layout_width="00dp"
-                android:layout_height="00dp" />
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
+    </ScrollView>
 </LinearLayout>

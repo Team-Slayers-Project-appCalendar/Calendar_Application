@@ -74,9 +74,6 @@ String id = EventRecyclerAdapter.chaiyeko;
                 startActivity(intent);
             }
         });
-//        for (int i = 0; i<eve.size();i++){
-//            System.out.println(eve.get(i));
-//        }
     }
 
 }
