@@ -6,8 +6,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -22,8 +26,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.w3c.dom.Text;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+import static android.os.Environment.*;
 
 public class IndividualData extends AppCompatActivity {
 
@@ -62,8 +70,29 @@ String id = EventRecyclerAdapter.chaiyeko;
         ShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                PdfDocument PdfDocument = new PdfDocument();
+                Paint myPaint = new Paint();
+                PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(1000, 900, 1).create();
+                PdfDocument.Page page = PdfDocument.startPage(pageInfo);
+                Canvas canvas = page.getCanvas();
+
+                myPaint.setTextSize(30);
+                canvas.drawText("Event Name", 30, 80, myPaint);
+                myPaint.setTextSize(30);
+                canvas.drawText(eve.get(0), 30, 120, myPaint);
+
+                PdfDocument.finishPage(page);
+                File myFile = new File(getExternalStorageDirectory(),"myapp/"+eve.get(0)+".pdf");
+                try {
+                    PdfDocument.writeTo(new FileOutputStream(myFile));
+                    Toast.makeText(IndividualData.this, "Export to pdf starts from here boys", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                PdfDocument.close();
+
+
 //                Toast.makeText(IndividualData.this, "Export to pdf starts from here boys", Toast.LENGTH_SHORT).show();
-//                Toast.makeText(IndividualData.this, ""+eve.get(0), Toast.LENGTH_SHORT).show();
             }
         });
         editbutton.setOnClickListener(new View.OnClickListener() {

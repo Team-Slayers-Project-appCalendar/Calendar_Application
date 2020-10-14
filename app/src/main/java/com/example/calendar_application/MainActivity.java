@@ -54,12 +54,12 @@ public class MainActivity extends AppCompatActivity implements CalendarView.Clic
 void check_permission_storage(){
     if (ContextCompat.checkSelfPermission(
             MainActivity.this,
-            Manifest.permission.READ_EXTERNAL_STORAGE)
+            Manifest.permission.WRITE_EXTERNAL_STORAGE)
             == PackageManager.PERMISSION_DENIED) {
         ActivityCompat
                 .requestPermissions(
                         MainActivity.this,
-                        new String[] { Manifest.permission.READ_EXTERNAL_STORAGE }, 10);
+                        new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 10);
     }
     else { }
 }
