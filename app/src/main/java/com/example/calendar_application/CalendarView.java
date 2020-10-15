@@ -192,16 +192,12 @@ public class CalendarView extends LinearLayout {
                             intent.putExtra("notificationId", "1");
                             intent.putExtra("todo", EventName.getText().toString());
 
-//                                                     getBroadcast(context, requestCode, intent, flags)
-
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                CharSequence name = "201";
+                                CharSequence name = "Event Reminder";
                                 String description = EventName.getText().toString();
                                 int importance = NotificationManager.IMPORTANCE_HIGH;
                                 NotificationChannel channel = new NotificationChannel("1", name, importance);
                                 channel.setDescription(description);
-                                // Register the channel with the system; you can't change the importance
-                                // or other notification behaviors after this
                                 NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
                                 notificationManager.createNotificationChannel(channel);
                             }
@@ -209,20 +205,15 @@ public class CalendarView extends LinearLayout {
                             AlarmManager alarm = (AlarmManager) getContext().getSystemService(ALARM_SERVICE);
                             PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0,
                                     intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                            // Create time.
+                            // Create time
                             Calendar startTime = Calendar.getInstance();
                             startTime.set(Calendar.HOUR_OF_DAY, hours);
                             startTime.set(Calendar.MINUTE, minutes);
                             startTime.set(Calendar.SECOND, 0);
                             long alarmStartTime = startTime.getTimeInMillis();
-                            // Set alarm.
-                            // set(type, milliseconds, intent)
-
                             alarm.set(AlarmManager.RTC_WAKEUP, alarmStartTime, alarmIntent);
                         }
                         SaveEvent(EventName.getText().toString(),EventDescription.getText().toString(),EventLocation.getText().toString(),EventTime.getText().toString(),date,month,year,"mnt/sdcard/myapp/"+value+".jpg");
-
-//                        Toast.makeText(context, ""+EventDescription.getText().toString(), Toast.LENGTH_LONG).show();
 
                         SetUpCalendar();
                        alertDialog.dismiss();
@@ -459,7 +450,6 @@ public class CalendarView extends LinearLayout {
             }
         }).start();
     }
-
 
     public interface ClickImage{
      public void imageClick();
