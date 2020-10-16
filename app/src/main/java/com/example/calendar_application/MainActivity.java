@@ -103,7 +103,7 @@ void check_permission_storage(){
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(MainActivity.this,
-                        "Camera and Storage Permission Granted",
+                        "Camera Permission Granted",
                         Toast.LENGTH_SHORT)
                         .show();
             }
